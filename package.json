@@ -1,0 +1,13 @@
+{
+  "name": "vue-json-compare",
+  "version": "1.0.0",
+  "description": "A vue(2.x) components for compare JSON data",
+  "main": "./index.js",
+  "keywords": [
+    "vue",
+    "json",
+    "compare"
+  ],
+  "author": "alpaca",
+  "license": "MIT"
+}

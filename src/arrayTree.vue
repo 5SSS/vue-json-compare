@@ -47,13 +47,13 @@ const mergedArr = (arr1, arr2) => {
     longer = arr2
   }
   longer.forEach((item, index) => {
-    if (arr1[index] && arr2[index]) {
+    if (arr1.hasOwnProperty(index) && arr2.hasOwnProperty(index)) {
       merged.push(arr2[index])
     } else {
-      if (arr1[index]) {
-        merged.push(arr1[index])
-      } else {
+      if (arr2.hasOwnProperty(index)) {
         merged.push(arr2[index])
+      } else {
+        merged.push(arr1[index])
       }
     }
   })

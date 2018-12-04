@@ -6,7 +6,9 @@
     <p v-show="parent" v-for="(item, index) in getData" :class="getDiff(index)" :style="getStyle" :key="index">
       <slot v-if="isArray(item)">
         <p @click="toggle(index)" class="alpaca-finger">
-          [ <span v-show="!child[index]">... ]</span>
+          [
+          <span v-show="!child[index]" v-if="isLast(index)">... ]</span>
+          <span v-show="!child[index]" v-else>... ],</span>
         </p>
         <arrayself v-show="child[index]" :oldData="getOldData(index)" :newData="getNewData(index)" :showLeaf="false" :indent="indent+1"></arrayself>
         <p :style="getStyle" :class="getDiff(index)">
@@ -16,7 +18,9 @@
       </slot>
       <slot v-else-if="isObject(item)">
         <p @click="toggle(index)" class="alpaca-finger">
-          { <span v-show="!child[index]">... }</span>
+          {
+          <span v-show="!child[index]" v-if="isLast(index)">... }</span>
+          <span v-show="!child[index]" v-else>... },</span>
         </p>
         <object-tree v-show="child[index]" :oldData="getOldDataObj(index)" :newData="getNewDataObj(index)" :showLeaf="false" :indent="indent+1"></object-tree>
         <p :style="getStyle" :class="getDiff(index)">

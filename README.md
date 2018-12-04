@@ -46,6 +46,10 @@ export default {
 }
 ```
 
+## Example
+
+![示例](./img/compare.png)
+
 ## Props
 
 | Attribute | Level | Description | Type | Default |

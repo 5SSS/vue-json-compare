@@ -7,7 +7,8 @@
       <slot v-if="isObject(item)">
         <p @click="toggle(index)" class="alpaca-finger">
           {{ index }}: {
-          <span v-show="!child[index]">... }</span>
+          <span v-show="!child[index]" v-if="isLast(index)">... }</span>
+          <span v-show="!child[index]" v-else>... },</span>
         </p>
         <objectself v-show="child[index]" :oldData="getOldData(index)" :newData="getNewData(index)" :showLeaf="false" :indent="indent+1"></objectself>
         <p :style="getStyle" :class="getDiff(index)">
@@ -18,7 +19,8 @@
       <slot v-else-if="isArray(item)">
         <p @click="toggle(index)" class="alpaca-finger">
           {{ index }}: [
-          <span v-show="!child[index]">... ]</span>
+          <span v-show="!child[index]" v-if="isLast(index)">... ]</span>
+          <span v-show="!child[index]" v-else>... ],</span>
         </p>
         <arrayTree v-show="child[index]" :data="item" :oldData="getOldDataArr(index)" :newData="getNewDataArr(index)" :showLeaf="false" :indent="indent+1"></arrayTree>
         <p :style="getStyle" :class="getDiff(index)">

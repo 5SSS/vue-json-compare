@@ -27,5 +27,8 @@ export const isUndefined = (item) => {
 }
 
 export const type = (item) => {
-  return Object.prototype.toString.call(item)
+  let type = Object.prototype.toString.call(item)
+  let match = /(?!\[).+(?=\])/g
+  type = type.match(match)[0].split(' ')[1]
+  return type
 }

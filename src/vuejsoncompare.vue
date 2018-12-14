@@ -19,7 +19,7 @@
 import { isObject, isArray, type } from './typeof.js'
 import tree from './tree'
 import parseData from './parsing'
-const mergedArr = (arr1, arr2) => {
+const mergeArr = (arr1, arr2) => {
   let longer = []
   let merged = []
   if (arr1.length > arr2.length) {
@@ -31,7 +31,7 @@ const mergedArr = (arr1, arr2) => {
     if (arr1.hasOwnProperty(index) && arr2.hasOwnProperty(index)) {
       if (type(arr2[index]) === type(arr1[index])) {
         if (isArray(arr2[index])) {
-          merged.push(mergedArr(arr1[index], arr2[index]))
+          merged.push(mergeArr(arr1[index], arr2[index]))
         } else if (isObject(arr2[index])) {
           merged.push(mergeObj(arr1[index], arr2[index]))
         } else {
@@ -60,6 +60,8 @@ const mergeObj = (obj1, obj2) => {
       if (type(obj2[key]) === type(obj1[key])) {
         if (isObject(obj2[key])) {
           merged[key] = mergeObj(obj1[key], obj2[key])
+        } else if (isArray(obj2[key])) {
+          merged[key] = mergeArr(obj1[key], obj2[key])
         } else {
           merged[key] = obj2[key]
         }
@@ -116,7 +118,7 @@ export default {
         mergeData = mergeObj(this.oldData, this.newData)
       }
       if (isArray(this.newData) && isArray(this.oldData)) {
-        mergeData = mergedArr(this.oldData, this.newData)
+        mergeData = mergeArr(this.oldData, this.newData)
       }
       this.merge = parseData(mergeData)
     }

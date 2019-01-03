@@ -1,6 +1,6 @@
 # vue-json-compare
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/leezng/vue-json-pretty/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/5SSS/vue-json-compare)
 
 A vue(2.x) components for compare JSON data
 

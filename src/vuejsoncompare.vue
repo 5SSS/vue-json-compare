@@ -148,6 +148,10 @@ export default {
     font-size: 12px;
     color: #808695;
     z-index: 5;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
   }
   .alpaca-k {
     color: #5cadff;

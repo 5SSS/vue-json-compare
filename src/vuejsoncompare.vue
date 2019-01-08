@@ -138,13 +138,12 @@ export default {
   .alpaca-p {
     position: relative;
     margin: 0;
-    padding: 5px 0;
   }
   .alpaca-line {
     position: absolute;
     text-indent: 0;
     left: 5px;
-    top: 7px;
+    top: 2px;
     font-size: 12px;
     color: #808695;
     z-index: 5;
@@ -195,7 +194,7 @@ export default {
     content: '+';
     position: absolute;
     left: -10px;
-    top: 5px;
+    top: 0px;
     text-indent: 0;
     color: #78ef9a;
   }
@@ -203,7 +202,7 @@ export default {
     content: '-';
     position: absolute;
     left: -10px;
-    top: 5px;
+    top: 0px;
     text-indent: 0;
     color: #f13e53;
   }
@@ -211,7 +210,7 @@ export default {
     content: '*';
     position: absolute;
     left: -10px;
-    top: 10px;
+    top: 5px;
     text-indent: 0;
     color: #f1e234;
   }

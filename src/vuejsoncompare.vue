@@ -137,6 +137,7 @@ export default {
   }
   .alpaca-p {
     position: relative;
+    word-break: break-all;
     margin: 0;
   }
   .alpaca-line {

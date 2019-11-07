@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import * as check from './typeof.js'
+import check from './typeof.js'
 export default {
   name: 'self',
   props: {

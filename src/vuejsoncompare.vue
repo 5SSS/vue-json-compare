@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { isObject, isArray, type } from './typeof.js'
+import check from './typeof.js'
 import tree from './tree'
 import parseData from './parsing'
 const mergeArr = (arr1, arr2) => {
@@ -29,10 +29,10 @@ const mergeArr = (arr1, arr2) => {
   }
   longer.forEach((item, index) => {
     if (arr1.hasOwnProperty(index) && arr2.hasOwnProperty(index)) {
-      if (type(arr2[index]) === type(arr1[index])) {
-        if (isArray(arr2[index])) {
+      if (check.type(arr2[index]) === check.type(arr1[index])) {
+        if (check.isArray(arr2[index])) {
           merged.push(mergeArr(arr1[index], arr2[index]))
-        } else if (isObject(arr2[index])) {
+        } else if (check.isObject(arr2[index])) {
           merged.push(mergeObj(arr1[index], arr2[index]))
         } else {
           merged.push(arr2[index])
@@ -57,10 +57,10 @@ const mergeObj = (obj1, obj2) => {
   let merged = Object.create(null)
   mergeKey.forEach((key) => {
     if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
-      if (type(obj2[key]) === type(obj1[key])) {
-        if (isObject(obj2[key])) {
+      if (check.type(obj2[key]) === check.type(obj1[key])) {
+        if (check.isObject(obj2[key])) {
           merged[key] = mergeObj(obj1[key], obj2[key])
-        } else if (isArray(obj2[key])) {
+        } else if (check.isArray(obj2[key])) {
           merged[key] = mergeArr(obj1[key], obj2[key])
         } else {
           merged[key] = obj2[key]
@@ -103,21 +103,21 @@ export default {
   },
   computed: {
     isTheSameType () {
-      return type(this.oldData) === type(this.newData)
+      return check.type(this.oldData) === check.type(this.newData)
     }
   },
   methods: {
     getMergedData () {
       let mergeData = {}
-      if (isObject(this.newData)) {
+      if (check.isObject(this.newData)) {
         this.isObject = true
       } else {
         this.isObject = false
       }
-      if (isObject(this.newData) && isObject(this.oldData)) {
+      if (check.isObject(this.newData) && check.isObject(this.oldData)) {
         mergeData = mergeObj(this.oldData, this.newData)
       }
-      if (isArray(this.newData) && isArray(this.oldData)) {
+      if (check.isArray(this.newData) && check.isArray(this.oldData)) {
         mergeData = mergeArr(this.oldData, this.newData)
       }
       this.merge = parseData(mergeData)

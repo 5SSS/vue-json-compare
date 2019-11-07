@@ -1,6 +1,6 @@
 {
   "name": "vue-json-compare",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "A vue(2.x) components for compare JSON data",
   "main": "./index.js",
   "keywords": [

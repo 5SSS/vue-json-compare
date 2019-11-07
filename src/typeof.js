@@ -1,34 +1,29 @@
-export const isArray = (item) => {
-  return Object.prototype.toString.call(item) === '[object Array]'
-}
-
-export const isObject = (item) => {
-  return Object.prototype.toString.call(item) === '[object Object]'
-}
-
-export const isNull = (item) => {
-  return Object.prototype.toString.call(item) === '[object Null]'
-}
-
-export const isNumber = (item) => {
-  return typeof item === 'number'
-}
-
-export const isString = (item) => {
-  return typeof item === 'string'
-}
-
-export const isBoolean = (item) => {
-  return typeof item === 'boolean'
-}
-
-export const isUndefined = (item) => {
-  return typeof item === 'undefined'
-}
-
-export const type = (item) => {
-  let type = Object.prototype.toString.call(item)
-  let match = /(?!\[).+(?=\])/g
-  type = type.match(match)[0].split(' ')[1]
-  return type
+export default {
+  isArray (item)  {
+    return Object.prototype.toString.call(item) === '[object Array]'
+  },
+  isObject (item) {
+    return Object.prototype.toString.call(item) === '[object Object]'
+  },
+  isNull (item)  {
+    return Object.prototype.toString.call(item) === '[object Null]'
+  },
+  isNumber (item) {
+    return typeof item === 'number'
+  },
+  isString (item) {
+    return typeof item === 'string'
+  },
+  isBoolean (item)  {
+    return typeof item === 'boolean'
+  },
+  isUndefined (item)  {
+    return typeof item === 'undefined'
+  },
+  type (item) {
+    let t = Object.prototype.toString.call(item)
+    let match = /(?!\[).+(?=\])/g
+    t = t.match(match)[0].split(' ')[1]
+    return t
+  }
 }

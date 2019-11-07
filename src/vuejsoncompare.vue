@@ -29,7 +29,7 @@ const mergeArr = (arr1, arr2) => {
   }
   longer.forEach((item, index) => {
     if (arr1.hasOwnProperty(index) && arr2.hasOwnProperty(index)) {
-      if (check.type(arr2[index]) === check.type(arr1[index])) {
+      if (check.getType(arr2[index]) === check.getType(arr1[index])) {
         if (check.isArray(arr2[index])) {
           merged.push(mergeArr(arr1[index], arr2[index]))
         } else if (check.isObject(arr2[index])) {
@@ -57,7 +57,7 @@ const mergeObj = (obj1, obj2) => {
   let merged = Object.create(null)
   mergeKey.forEach((key) => {
     if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
-      if (check.type(obj2[key]) === check.type(obj1[key])) {
+      if (check.getType(obj2[key]) === check.getType(obj1[key])) {
         if (check.isObject(obj2[key])) {
           merged[key] = mergeObj(obj1[key], obj2[key])
         } else if (check.isArray(obj2[key])) {
@@ -103,7 +103,7 @@ export default {
   },
   computed: {
     isTheSameType () {
-      return check.type(this.oldData) === check.type(this.newData)
+      return check.getType(this.oldData) === check.getType(this.newData)
     }
   },
   methods: {

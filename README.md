@@ -49,6 +49,7 @@ export default {
 ## Example
 
 注意：左边是使用了[vue-json](https://github.com/5SSS/vue-json)这个包,纯展示使用的。右边的才是vue-json-compare展示的结果。
+(left: vue-json-cool component, right: vue-json-compare component)
 
 ![示例](./img/compare.png)
 

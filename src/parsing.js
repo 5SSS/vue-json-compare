@@ -19,7 +19,7 @@ const parseObject = (obj) => {
   let newData = []
   for (let key in obj) {
     let newObj = Object.create(null)
-    newObj.type = check.type(obj[key])
+    newObj.type = check.getType(obj[key])
     newObj.line = _line++
     newObj.key = key
     if (check.isObject(obj[key])) {
@@ -52,7 +52,7 @@ const parseArray = (arr) => {
   let newData = []
   for (let i = 0; i < arr.length; i++) {
     let newObj = Object.create(null)
-    newObj.type = check.type(arr[i])
+    newObj.type = check.getType(arr[i])
     newObj.key = i
     newObj.line = _line++
     if (check.isObject(arr[i])) {

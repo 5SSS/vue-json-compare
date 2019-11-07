@@ -161,7 +161,7 @@ export default {
         // 对象，对比Key
         if (oldData.hasOwnProperty(item.key) && newData.hasOwnProperty(item.key)) {
           // 类型不同
-          if (check.type(oldData[item.key]) !== check.type(newData[item.key])) {
+          if (check.getType(oldData[item.key]) !== check.getType(newData[item.key])) {
             return 'alpaca-upd'
           } else {
             // 类型相同
@@ -184,7 +184,7 @@ export default {
       // 数组，对比下标
       if (oldData.hasOwnProperty(item.key) && newData.hasOwnProperty(item.key)) {
         // 类型不同
-        if (check.type(oldData[item.key]) !== check.type(newData[item.key])) {
+        if (check.getType(oldData[item.key]) !== check.getType(newData[item.key])) {
           return 'alpaca-upd'
         } else {
           // 类型相同

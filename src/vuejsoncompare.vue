@@ -131,9 +131,10 @@ export default {
     padding: 10px 20px;
     border-radius: 5px;
     color: #032f62;
-    background-color: #fafbfc;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     font-size: 14px;
+    text-align: left;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    background-color: #fafbfc;
   }
   .alpaca-p {
     position: relative;

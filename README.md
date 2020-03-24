@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/5SSS/vue-json-compare)
 
-A vue(2.x) components for compare JSON data
+A vue(2.x) components for compare Object or Array
 
 ## Links
 
@@ -48,17 +48,17 @@ export default {
 
 ## Example
 
-注意：左边是使用了[vue-json](https://github.com/5SSS/vue-json)这个包,纯展示使用的。右边的才是vue-json-compare展示的结果。
+注意：左边是使用了[vue-json](https://github.com/5SSS/vue-json)这个包,纯展示使用的。右边的才是 vue-json-compare 展示的结果。
 (left: vue-json-cool component, right: vue-json-compare component)
 
 ![示例](./img/compare.png)
 
 ## Props
 
-| Attribute | Level | Description | Type | Default |
-|-------- |-------- |-------- |-------- | -------- |
-| oldData | basic | json data | JSON object or object Array, {...}, [{...}, {...}] | - |
-| newData | basic | json data | JSON object or object Array, {...}, [{...}, {...}] | - |
+| Attribute | Level | Description | Type                                          | Default |
+| --------- | ----- | ----------- | --------------------------------------------- | ------- |
+| oldData   | basic | json data   | object or object Array, {...}, [{...}, {...}] | -       |
+| newData   | basic | json data   | object or object Array, {...}, [{...}, {...}] | -       |
 
 ## Events
 

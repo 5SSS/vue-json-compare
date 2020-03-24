@@ -1,10 +1,16 @@
 <template>
   <div>
-    <p class="alpaca-p" v-for="(item, index) in merge" :key="index" :style="getStyle" :class="getDiff(item, index)">
+    <p
+      class="alpaca-p"
+      v-for="(item, index) in merge"
+      :key="index"
+      :style="getStyle"
+      :class="getDiff(item, index)"
+    >
       <span class="alpaca-line">{{ item.line }}</span>
       <slot v-if="isObject(item.type)">
         <p @click="toggle(item)" class="alpaca-f">
-          <span v-if="needKey" class="alpaca-k">"{{ item.key }}": </span>
+          <span v-if="needKey" class="alpaca-k">"{{ item.key }}":</span>
           <span class="alpaca-k">{</span>
           <span class="alpaca-k" v-show="!item.show">... } {{ comma(index) }}</span>
         </p>
@@ -16,16 +22,16 @@
           :objectType="true"
           :showLeaf="false"
           :indent="indent+1"
-          :needKey="true">
-        </self>
+          :needKey="true"
+        ></self>
         <p v-show="item.show" :style="getStyle" class="alpaca-p" :class="getDiff(item, index)">
           <span class="alpaca-line">{{ item.lastLine }}</span>
           <span class="alpaca-k">} {{ comma(index) }}</span>
-       </p>
+        </p>
       </slot>
       <slot v-else-if="isArray(item.type)">
         <p @click="toggle(item)" class="alpaca-f">
-          <span v-if="needKey" class="alpaca-k">"{{ item.key }}": </span>
+          <span v-if="needKey" class="alpaca-k">"{{ item.key }}":</span>
           <span class="alpaca-k">[</span>
           <span class="alpaca-k" v-show="!item.show">... ] {{ comma(index) }}</span>
         </p>
@@ -37,15 +43,15 @@
           :showLeaf="false"
           :objectType="false"
           :indent="indent+1"
-          :needKey="false">
-        </self>
+          :needKey="false"
+        ></self>
         <p v-show="item.show" :style="getStyle" class="alpaca-p" :class="getDiff(item, index)">
           <span class="alpaca-line">{{ item.lastLine }}</span>
           <span class="alpaca-k">] {{ comma(index) }}</span>
-       </p>
+        </p>
       </slot>
       <slot v-else>
-        <span v-if="needKey" class="alpaca-k">"{{ item.key }}": </span>
+        <span v-if="needKey" class="alpaca-k">"{{ item.key }}":</span>
         <span :class="getClass(item.type)">{{ item.value }}{{ comma(index) }}</span>
       </slot>
     </p>
@@ -53,9 +59,9 @@
 </template>
 
 <script>
-import check from './typeof.js'
+import check from "./typeof.js";
 export default {
-  name: 'self',
+  name: "self",
   props: {
     oldData: {
       type: [Object, Array]
@@ -80,130 +86,159 @@ export default {
     }
   },
   computed: {
-    getStyle () {
-      return {textIndent: `${(this.indent + 1) * 20}px`}
+    getStyle() {
+      return { textIndent: `${(this.indent + 1) * 20}px` };
     }
   },
   methods: {
-    notTree (type) {
-      return type !== 'Object' && type !== 'Array'
+    notTree(type) {
+      return type !== "Object" && type !== "Array";
     },
-    toggle (item) {
-      item.show = !item.show
+    toggle(item) {
+      item.show = !item.show;
     },
-    isObject (type) {
-      return type === 'Object'
+    isObject(type) {
+      return type === "Object";
     },
-    isArray (type) {
-      return type === 'Array'
+    isArray(type) {
+      return type === "Array";
     },
-    comma (index) {
+    comma(index) {
       if (index === this.merge.length - 1) {
-        return ''
+        return "";
       }
-      return ','
+      return ",";
     },
-    getClass (type) {
-      if (type === 'Number') {
-        return 'alpaca-number'
+    getClass(type) {
+      if (type === "Number") {
+        return "alpaca-number";
       }
-      if (type === 'String') {
-        return 'alpaca-string'
+      if (type === "String") {
+        return "alpaca-string";
       }
-      if (type === 'Boolean') {
-        return 'alpaca-boolean'
+      if (type === "Boolean") {
+        return "alpaca-boolean";
       }
-      if (type === 'Undefined') {
-        return 'alpaca-undefined'
+      if (type === "Undefined") {
+        return "alpaca-undefined";
       }
-      if (type === 'Null') {
-        return 'alpaca-null'
+      if (type === "Null") {
+        return "alpaca-null";
       }
       // 其他不改变颜色
-      return ''
+      return "";
     },
-    getOldDataObj (item) {
+    getOldDataObj(item) {
       if (this.oldData.hasOwnProperty(item.key)) {
         if (check.isObject(this.oldData[item.key])) {
-          return this.oldData[item.key]
+          return this.oldData[item.key];
         }
       }
-      return {}
+      return {};
     },
-    getNewDataObj (item) {
+    getNewDataObj(item) {
       if (this.newData.hasOwnProperty(item.key)) {
         if (check.isObject(this.newData[item.key])) {
-          return this.newData[item.key]
+          return this.newData[item.key];
         }
       }
-      return {}
+      return {};
     },
-    getOldDataArr (item) {
+    getOldDataArr(item) {
       if (this.oldData.hasOwnProperty(item.key)) {
         if (check.isArray(this.oldData[item.key])) {
-          return this.oldData[item.key]
+          return this.oldData[item.key];
         }
       }
-      return []
+      return [];
     },
-    getNewDataArr (item) {
+    getNewDataArr(item) {
       if (this.newData.hasOwnProperty(item.key)) {
         if (check.isArray(this.newData[item.key])) {
-          return this.newData[item.key]
+          return this.newData[item.key];
         }
       }
-      return []
+      return [];
     },
-    getDiff (item, index) {
-      let oldData = this.oldData
-      let newData = this.newData
+    getDiff(item, index) {
+      let oldData = this.oldData;
+      let newData = this.newData;
       if (this.objectType) {
         // 对象，对比Key
-        if (oldData.hasOwnProperty(item.key) && newData.hasOwnProperty(item.key)) {
+        if (
+          oldData.hasOwnProperty(item.key) &&
+          newData.hasOwnProperty(item.key)
+        ) {
           // 类型不同
-          if (check.getType(oldData[item.key]) !== check.getType(newData[item.key])) {
-            return 'alpaca-upd'
+          if (
+            check.getType(oldData[item.key]) !==
+            check.getType(newData[item.key])
+          ) {
+            return "alpaca-upd";
           } else {
             // 类型相同
-            if (!check.isArray(oldData[item.key]) && !check.isObject(oldData[item.key])) {
+            if (
+              !check.isArray(oldData[item.key]) &&
+              !check.isObject(oldData[item.key])
+            ) {
               if (oldData[item.key] !== newData[item.key]) {
-                return 'alpaca-upd'
+                return "alpaca-upd";
               }
             }
           }
         }
-        if (oldData.hasOwnProperty(item.key) && !newData.hasOwnProperty(item.key)) {
-          return 'alpaca-del'
+        if (
+          oldData.hasOwnProperty(item.key) &&
+          !newData.hasOwnProperty(item.key)
+        ) {
+          return "alpaca-del";
         }
-        if (!oldData.hasOwnProperty(item.key) && newData.hasOwnProperty(item.key)) {
-          return 'alpaca-add'
+        if (
+          !oldData.hasOwnProperty(item.key) &&
+          newData.hasOwnProperty(item.key)
+        ) {
+          return "alpaca-add";
         }
         // 无变化
-        return ''
+        return "";
       }
       // 数组，对比下标
-      if (oldData.hasOwnProperty(item.key) && newData.hasOwnProperty(item.key)) {
+      if (
+        oldData.hasOwnProperty(item.key) &&
+        newData.hasOwnProperty(item.key)
+      ) {
         // 类型不同
-        if (check.getType(oldData[item.key]) !== check.getType(newData[item.key])) {
-          return 'alpaca-upd'
+        if (
+          check.getType(oldData[item.key]) !== check.getType(newData[item.key])
+        ) {
+          return "alpaca-upd";
         } else {
           // 类型相同
-          if (!check.isObject(oldData[item.key]) && !check.isArray(oldData[item.key])) {
+          if (
+            !check.isObject(oldData[item.key]) &&
+            !check.isArray(oldData[item.key])
+          ) {
             if (oldData[item.key] !== newData[item.key]) {
-              return 'alpaca-upd'
+              return "alpaca-upd";
             }
           }
         }
       }
-      if (oldData.hasOwnProperty(item.key) && !newData.hasOwnProperty(item.key)) {
-        return 'alpaca-del'
+      if (
+        oldData.hasOwnProperty(item.key) &&
+        !newData.hasOwnProperty(item.key)
+      ) {
+        return "alpaca-del";
       }
-      if (!oldData.hasOwnProperty(item.key) && newData.hasOwnProperty(item.key)) {
-        return 'alpaca-add'
+      if (
+        !oldData.hasOwnProperty(item.key) &&
+        newData.hasOwnProperty(item.key)
+      ) {
+        return "alpaca-add";
       }
       // 无改变
-      return ''
+      return "";
     }
   }
-}
+};
 </script>

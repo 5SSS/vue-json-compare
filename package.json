@@ -1,6 +1,6 @@
 {
   "name": "vue-json-compare",
-  "version": "2.0.9",
+  "version": "3.0.0",
   "description": "A vue(2.x) components for compare JSON data",
   "main": "./index.js",
   "keywords": [
@@ -9,5 +9,8 @@
     "compare"
   ],
   "author": "alpaca",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^2.6.11"
+  }
 }

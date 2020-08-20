@@ -1,0 +1,217 @@
+<template>
+  <pre class="c-json-view">
+    <p class="c-json-outter">{{isArray(newData) ? '[' : '{'}}</p>
+      <Tree 
+        v-for="(item, index) in mergeView" 
+        :key="index" 
+        :name="item.name"
+        :value="item.value"
+        :type="item.type"
+        :line="item.line"
+        :showIndex="item.showIndex"
+        :needComma="item.needComma"
+        :lineType="item.lineType"
+        :lastLineType="item.lastLineType"
+        :lastLine="item.lastLine" />
+    <p class="c-json-outter">{{isArray(newData) ? ']' : '}'}}</p>
+  </pre>
+</template>
+
+<script>
+import { mergeData, isArray } from './utils.js';
+import Tree from './tree.vue';
+export default {
+  props: ['oldData', 'newData'],
+  components: {
+    Tree,
+  },
+  data() {
+    return {
+      mergeView: [],
+    };
+  },
+  watch: {
+    oldData() {
+      this.updateView();
+    },
+    newData() {
+      this.updateView();
+    },
+  },
+  methods: {
+    isArray: isArray,
+    updateView() {
+      this.mergeView = mergeData(this.oldData, this.newData);
+    },
+  },
+  mounted() {
+    this.updateView();
+  },
+};
+</script>
+
+<style>
+.c-json-view {
+  display: block;
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  background-color: #fbfbfb;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.c-json-line,
+.c-json-p,
+.c-json-feet {
+  position: relative;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  padding: 2px 0;
+}
+
+.c-json-line {
+  padding: 0;
+}
+
+.c-line-del {
+  background-color: #ffeef0;
+}
+
+.c-line-add {
+  background-color: #e6ffed;
+}
+
+.c-of-del:after {
+  content: '-';
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  width: 10px;
+  height: 15px;
+  z-index: 5;
+  text-indent: 0;
+  color: #ff6f6f;
+}
+
+.c-of-add:after {
+  content: '+';
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  width: 10px;
+  height: 15px;
+  z-index: 5;
+  color: #3eb93e;
+  text-indent: 0;
+}
+
+.c-json-p {
+  cursor: pointer;
+}
+.c-json-p:hover {
+  background: #f6f6f6;
+}
+
+.c-json-outter {
+  transform: translateX(-35px);
+}
+
+.c-json-mark {
+  position: absolute;
+  left: -30px;
+  top: 2px;
+  text-indent: 0;
+  font-size: 12px;
+  color: #545454;
+  z-index: 5;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
+.c-json-content {
+  font-size: 14px;
+}
+
+.c-json-content .c-json-key {
+  font-size: 15px;
+  color: #5cadff;
+}
+
+.c-json-items {
+  color: #b1b1b1;
+}
+
+.c-json-comma {
+  color: #5cadff;
+}
+
+.c-json-pt {
+  color: #5cadff;
+}
+
+.c-json-number {
+  color: #ae81ff;
+}
+
+.c-json-string {
+  color: #a6e22e;
+}
+
+.c-json-null,
+.c-json-boolean,
+.c-json-undefined,
+.c-json-regexp,
+.c-json-date,
+.c-json-set,
+.c-json-map,
+.c-json-error,
+.c-json-symbol,
+.c-json-function {
+  background-color: #f7f7f7;
+  border-radius: 3px;
+  padding: 0px 2px;
+  border: 1px solid #dedede;
+}
+
+.c-json-boolean {
+  color: #6f73ff;
+}
+
+.c-json-null {
+  color: #66d9ef;
+}
+
+.c-json-undefined {
+  color: #f92672;
+}
+
+.c-json-date {
+  color: #09d3ac;
+}
+
+.c-json-regexp {
+  color: #2ea021;
+}
+
+.c-json-function {
+  color: #a2af3d;
+}
+
+.c-json-symbol {
+  color: #fd3db8;
+}
+
+.c-json-error {
+  color: #afafaf;
+}
+
+.c-json-set,
+.c-json-map {
+  color: #f56847;
+}
+</style>

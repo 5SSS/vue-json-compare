@@ -25,33 +25,42 @@ npm install --save vue-json-compare
 ```
 
 ```js
-import vueJsonCompare from 'vue-json-compare'
-
+import vueJsonCompare from 'vue-json-compare';
+const oldData = {
+  name: 'super',
+  age: 18,
+  task: [
+    { name: 'eat', time: '09:00' },
+    { name: 'work', time: '10:00', deleted: 'this prop has been deleted!' },
+    { name: 'sleep', time: '22:00' },
+  ],
+};
+const newData = {
+  name: 'coolapt',
+  age: 20,
+  task: [
+    { name: 'eat', time: '09:00' },
+    { name: 'work', time: '10:00' },
+    { name: 'sleep', time: '23:00' },
+    { name: 'running', time: '08:00' },
+  ],
+};
 export default {
   components: {
-    vueJsonCompare
+    vueJsonCompare,
   },
-  data () {
+  data() {
     return {
-      oldData: {
-        a: 1,
-        e: 0
-      },
-      newData: {
-        a: 2
-        b: 3
-      }
-    }
-  }
-}
+      oldData: oldData,
+      newData: newData,
+    };
+  },
+};
 ```
 
-## Example
+## Result
 
-注意：左边是使用了[vue-json](https://github.com/5SSS/vue-json)这个包,纯展示使用的。右边的才是 vue-json-compare 展示的结果。
-(left: vue-json-cool component, right: vue-json-compare component)
-
-![示例](./img/compare.png)
+![示例](./img/version3.png)
 
 ## Props
 

@@ -37,7 +37,10 @@ const isTheSametype = (a, b) => {
   );
 };
 
-const mergeData = (_old, _new) => {
+let sort = false;
+const mergeData = (_old, _new,_sort) => {
+  // the checking to be sensitive for the index of the array or not 
+  sort = _sort
   // finally result
   let result = [];
   // each line No.
@@ -98,6 +101,40 @@ const mergeData = (_old, _new) => {
     };
   };
 
+  // return an array with repeted values
+  const getRepatedValues = (a, b) =>{
+    let RepatedValues = []
+    for (const akey in a) {
+      if (Object.hasOwnProperty.call(a, akey)) {
+        let A_eleValue = a[akey];
+        for (const bkey in b) {
+          if (Object.hasOwnProperty.call(b, bkey)) {
+            let B_eleValue = b[bkey];
+            if (A_eleValue === B_eleValue) {
+              RepatedValues.push(A_eleValue)
+            }
+          }
+        }        
+      }
+    }
+    return RepatedValues
+  }
+
+  // return the repated value in the ild or in hte new object and the status of this value if "del" or "add"
+  const getIsRepatedValue = (A_Object,B_Object,A_Value,B_Value,RepatedValues)=>{
+    let objContainer = {}
+  if (RepatedValues.includes(A_Value)) {
+    objContainer.RepatedObj = A_Object
+    objContainer.notRepated = B_Object
+    objContainer.action = 'add'
+  }else{
+    objContainer.RepatedObj = B_Object
+    objContainer.notRepated = A_Object
+    objContainer.action = 'del'
+  }
+  return objContainer;
+  }
+
   // merge two vars to target,target type Array<object>[{}]
   const parseData = (a, b, target) => {
     let _ar = Object.keys(a);
@@ -109,14 +146,9 @@ const mergeData = (_old, _new) => {
     let _stl = _ar.filter((ak) => _br.some((bk) => bk === ak));
     // new added keys
     let _add = _br.filter((bk) => !_ar.some((ak) => ak === bk));
-    // push deleted keys
-    _del.forEach((key, index) => {
-      let needComma = true;
-      if (_stl.length === 0 && _add.length === 0 && index === _del.length - 1) {
-        needComma = false;
-      }
-      target.push(parseValue(key, a[key], showIndex, needComma, 'del'));
-    });
+    // getting the repated values
+    let RepatedValues = getRepatedValues(a, b)
+
     // The core function: compare
     _stl.forEach((key, index) => {
       let needComma = true;
@@ -142,13 +174,27 @@ const mergeData = (_old, _new) => {
           // rewrite lastline
           _target.lastLine = start++;
         } else {
-          target.push(parseValue(key, a[key], showIndex, true, 'del'));
-          target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
+          if (sort && RepatedValues.length > 0) {
+            let isRepatedValue = getIsRepatedValue(a,b,a[key],b[key],RepatedValues)
+            target.push(parseValue(key, isRepatedValue.RepatedObj[key], showIndex, needComma, 'none'));
+            target.push(parseValue(key, isRepatedValue.notRepated[key], showIndex, needComma, isRepatedValue.action));
+          }else{
+            target.push(parseValue(key, a[key], showIndex, true, 'del'));
+            target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
+          }
         }
       } else {
         target.push(parseValue(key, a[key], showIndex, true, 'del'));
         target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
       }
+    });
+    // push deleted keys
+    _del.forEach((key, index) => {
+      let needComma = true;
+      if (_stl.length === 0 && _add.length === 0 && index === _del.length - 1) {
+        needComma = false;
+      }
+      target.push(parseValue(key, a[key], showIndex, needComma, 'del'));
     });
     // push new keys
     _add.forEach((key, index) => {

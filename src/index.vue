@@ -21,7 +21,20 @@
 import { mergeData, isArray } from './utils.js';
 import Tree from './tree.vue';
 export default {
-  props: ['oldData', 'newData'],
+  props:{
+     oldData: {
+       type: Object,
+      default: {},
+    },
+    newData: {
+       type: Object,
+      default: {},
+    },
+    sort:{
+      type: Boolean,
+      default:false
+    }
+  },
   components: {
     Tree,
   },

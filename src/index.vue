@@ -54,7 +54,7 @@ export default {
   methods: {
     isArray: isArray,
     updateView() {
-      this.mergeView = mergeData(this.oldData, this.newData);
+      this.mergeView = mergeData(this.oldData, this.newData, this.sort);
     },
   },
   mounted() {

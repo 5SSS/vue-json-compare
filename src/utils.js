@@ -33,11 +33,14 @@ const isComplexType = (param) => {
 
 const isTheSametype = (a, b) => {
   return (
-    Object.prototype.toString.call(a) === Object.prototype.toString.call(b)
+      Object.prototype.toString.call(a) === Object.prototype.toString.call(b)
   );
 };
 
-const mergeData = (_old, _new) => {
+let sort = false;
+const mergeData = (_old, _new,_sort) => {
+  // the checking to be sensitive for the index of the array or not
+  sort = _sort
   // finally result
   let result = [];
   // each line No.
@@ -98,6 +101,42 @@ const mergeData = (_old, _new) => {
     };
   };
 
+  // return an array with repeated values
+  const getRepeatedValues = (a, b) =>{
+    let RepeatedValues = []
+    for (const akey in a) {
+      if (Object.hasOwnProperty.call(a, akey)) {
+        let A_eleValue = a[akey];
+        for (const bkey in b) {
+          if (Object.hasOwnProperty.call(b, bkey)) {
+            let B_eleValue = b[bkey];
+            if (A_eleValue === B_eleValue) {
+              RepeatedValues.push(A_eleValue)
+            }
+          }
+        }
+      }
+    }
+    return RepeatedValues
+  }
+
+  // return the repeated value in the ild or in hte new object and the status of this value if "del" or "add"
+  const getIsRepeatedValue = (A_Object,B_Object,A_Value,B_Value,RepeatedValues)=>{
+    let objContainer = {}
+    if (RepeatedValues.includes(A_Value)) {
+      objContainer.RepeatedObj = A_Object
+      objContainer.notRepeated = B_Object
+      objContainer.actionR = 'none'
+      objContainer.actionNR = !RepeatedValues.includes(B_Value) ? 'add' : null
+    }else{
+      objContainer.RepeatedObj = B_Object
+      objContainer.notRepeated = A_Object
+      objContainer.actionR = 'add'
+      objContainer.actionNR = !RepeatedValues.includes(A_Value) ? 'del' : null
+    }
+    return objContainer;
+  }
+
   // merge two vars to target,target type Array<object>[{}]
   const parseData = (a, b, target) => {
     let _ar = Object.keys(a);
@@ -109,14 +148,9 @@ const mergeData = (_old, _new) => {
     let _stl = _ar.filter((ak) => _br.some((bk) => bk === ak));
     // new added keys
     let _add = _br.filter((bk) => !_ar.some((ak) => ak === bk));
-    // push deleted keys
-    _del.forEach((key, index) => {
-      let needComma = true;
-      if (_stl.length === 0 && _add.length === 0 && index === _del.length - 1) {
-        needComma = false;
-      }
-      target.push(parseValue(key, a[key], showIndex, needComma, 'del'));
-    });
+    // getting the repeated values
+    let RepeatedValues = getRepeatedValues(a, b)
+
     // The core function: compare
     _stl.forEach((key, index) => {
       let needComma = true;
@@ -124,15 +158,16 @@ const mergeData = (_old, _new) => {
         needComma = false;
       }
       if (a[key] === b[key]) {
+        // values haven't changed
         target.push(parseValue(key, b[key], showIndex, needComma, 'none'));
       } else if (isTheSametype(a[key], b[key])) {
         if (isComplexType(b[key])) {
           let _target = parseValue(
-            key,
-            isArray(a[key]) ? [] : {},
-            showIndex,
-            needComma,
-            'none'
+              key,
+              isArray(a[key]) ? [] : {},
+              showIndex,
+              needComma,
+              'none'
           );
           target.push(_target);
           // back one step
@@ -142,18 +177,33 @@ const mergeData = (_old, _new) => {
           // rewrite lastline
           _target.lastLine = start++;
         } else {
-          target.push(parseValue(key, a[key], showIndex, true, 'del'));
-          target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
+          if (sort && RepeatedValues.length > 0) {
+            let isRepeatedValue = getIsRepeatedValue(a,b,a[key],b[key],RepeatedValues)
+            target.push(parseValue(key, isRepeatedValue.RepeatedObj[key], showIndex, needComma, isRepeatedValue.actionR));
+            if(isRepeatedValue.actionNR)
+              target.push(parseValue(key, isRepeatedValue.notRepeated[key], showIndex, needComma, isRepeatedValue.actionNR));
+          }else{
+            target.push(parseValue(key, a[key], showIndex, true, 'del'));
+            target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
+          }
         }
       } else {
         target.push(parseValue(key, a[key], showIndex, true, 'del'));
         target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
       }
     });
+    // push deleted keys
+    _del.forEach((key, index) => {
+      let needComma = true;
+      if (_stl.length === 0 && _add.length === 0 && index === _del.length - 1) {
+        needComma = false;
+      }
+      target.push(parseValue(key, a[key], showIndex, needComma, 'del'));
+    });
     // push new keys
     _add.forEach((key, index) => {
       target.push(
-        parseValue(key, b[key], showIndex, _add.length !== index + 1, 'add')
+          parseValue(key, b[key], showIndex, _add.length !== index + 1, 'add')
       );
     });
   };

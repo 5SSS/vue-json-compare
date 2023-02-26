@@ -64,10 +64,11 @@ export default {
 
 ## Props
 
-| Attribute | Level | Description | Type                                          | Default |
-| --------- | ----- | ----------- | --------------------------------------------- | ------- |
-| oldData   | basic | json data   | object or object Array, {...}, [{...}, {...}] | -       |
-| newData   | basic | json data   | object or object Array, {...}, [{...}, {...}] | -       |
+| Attribute | Level | Description             | Type                                          | Default  |
+| --------- | ----- | ------------------------| --------------------------------------------- | -------  |
+| oldData   | basic | json data               | object or object Array, {...}, [{...}, {...}] | {}       |
+| newData   | basic | json data               | object or object Array, {...}, [{...}, {...}] | {}       |
+| sort      | basic | Boolean (True, flase)   | Boolean                                       | false    |
 
 ## Events
 
